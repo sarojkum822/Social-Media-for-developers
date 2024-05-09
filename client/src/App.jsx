@@ -1,0 +1,29 @@
+import { useContext, useEffect, useState } from 'react'
+import './App.css'
+import { Toaster} from 'react-hot-toast'
+import { Routes, Route } from 'react-router-dom'
+import HomePage from './Pages/HomePage'
+import Navbar from './components/Navbar'
+import Register from './auth/Register'
+import Login from './auth/Login'
+import Post from './Pages/Post'
+import ProtectedPage from './Context/ProtectedPage'
+
+function App() {
+
+
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/post' element={<ProtectedPage><Post/></ProtectedPage>} />
+      </Routes>
+      <Toaster />
+    </>
+  )
+}
+
+export default App
