@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv'
 import cors from 'cors'
 import userRouter from './Routes/user.js'
+import postRouter from './Routes/post.js'
+import blogRouter from './Routes/Blog.js'
 import {EventEmitter} from 'events'
 
 import cookieParser from 'cookie-parser';
@@ -24,6 +26,8 @@ EventEmitter.defaultMaxListeners = 20
 
 
 app.use("/users",userRouter);
+app.use("/posts",postRouter);
+app.use("/blog",blogRouter);
 
 
 app.get('/', (req, res) => {

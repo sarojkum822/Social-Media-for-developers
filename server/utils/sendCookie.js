@@ -2,11 +2,15 @@ import jwt from 'jsonwebtoken';
 
 export const sendCookie = (User, res, message, status = 200) => {
     try {
+        if (!User || !User._id) {
+            throw new Error("Invalid User object");
+        }
 
         const payload = {
-            _id:User._id,
-            timeStamp:Date.now()
-        }
+            _id: User._id,
+            name:User.name,
+            timeStamp: Date.now()
+        };
         const token = jwt.sign(payload, process.env.JWT_SECRET);
 
         res.status(status).cookie("token", token, {
@@ -25,4 +29,4 @@ export const sendCookie = (User, res, message, status = 200) => {
             message: "Internal server error"
         });
     }
-}
+};

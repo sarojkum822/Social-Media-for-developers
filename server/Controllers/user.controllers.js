@@ -26,6 +26,8 @@ export const register = async (req, res) => {
     // Once user is successfully created, send the JWT token as a cookie
     sendCookie(userData, res, "User registered successfully", 201);
 
+    
+
   } catch (error) {
     console.error("Error registering user:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
@@ -53,11 +55,18 @@ export const login = async (req, res) => {
       return res.status(401).json({ success: false, message: "Invalid email or password" });
     }
 
-    console.log(isPasswordValid, userData)
+    const userResponse = {
+      _id: userData._id,
+      name: userData.name,
+      email: userData.email,
+      // Include any additional user details you want to send
+    };
 
+    // console.log(userResponse);
 
-    sendCookie(userData, res, `Logged in successfully, ${userData.name}`, 200);
+    sendCookie(userResponse, res, `Logged in successfully, ${userData.name}`, 200);
 
+    
   
   } catch (error) {
 return res.status(500).json({
@@ -71,12 +80,14 @@ return res.status(500).json({
 
 export const getUserDetails = async (req, res) => {
   try {
+    
 
-    let user = await UserModel.findById(req.user._id);
+    let user = await UserModel.findById(req.user);
+    console.log("user",user);
 
     res.status(200).json({
       sucess: true,
-      user: user
+      user: req.user,
     })
   } catch (error) {
     return res.status(500).json({

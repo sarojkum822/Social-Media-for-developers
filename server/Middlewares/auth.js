@@ -8,12 +8,16 @@ export const isAuthenticated = async (req, res, next) => {
         if (!token) {
             return res.status(401).json({
                 success: false,
-                message: "Unauthorized: No token provided"
+                message: "Login first"
             });
+        }else{
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            // console.log("decoded",decoded);
+            req.user = await UserModel.findById(decoded._id);
+            // console.log(req.user);
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = await UserModel.findById(decoded._id);
         next();
 
     } catch (error) {
@@ -23,3 +27,11 @@ export const isAuthenticated = async (req, res, next) => {
         });
     }
 }
+
+// export const AllowUser=async()=>{
+//     try {
+        
+//     } catch (error) {
+        
+//     }
+// }
